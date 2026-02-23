@@ -1,13 +1,43 @@
 import Button from "@/components/button";
 import Container from "@/components/container";
 import Input from "@/components/input";
+import { useAuth } from "@/context/auth";
+import { passwordSchema } from "@/lib/validation";
+import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
+import { Controller, useForm } from "react-hook-form";
 
 import { Image, StyleSheet, Text, View } from "react-native";
+import z from "zod";
 
+const signInScheme = z.object({
+  username: z.string().min(1, {
+    message: "Silahkan masukan username dengan benar",
+  }),
+  //z.email({ message: "Silahkan masukan email dengan benar" }),
+  password: passwordSchema,
+});
+
+type signInValues = z.infer<typeof signInScheme>;
 const LoginScreen = () => {
-  const [email, setEmail] = React.useState<string>("");
-  const [password, setPassword] = React.useState<string>("");
+  const { signIn } = useAuth();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    trigger,
+  } = useForm<signInValues>({
+    resolver: zodResolver(signInScheme),
+    defaultValues: {
+      username: "",
+      password: "",
+    },
+    mode: "onSubmit",
+  });
+  const onSubmit = async (values: signInValues) => {
+    await signIn(values.username, values.password);
+  };
+
   return (
     <Container>
       <View className="flex-1 items-center justify-center px-6 pt-16">
@@ -17,12 +47,12 @@ const LoginScreen = () => {
         </View> */}
 
         <Text className="text-white text-3xl font-bold mb-2">
-          Welcome back!
+          Selamat datang!
         </Text>
 
         <Text className="text-white/80 text-center text-base">
-          You've been missed,{"\n"}
-          Please sign in your account
+          Halo reader,{"\n"}
+          Silahkan login ke aplikasi
         </Text>
 
         {/* Illustration */}
@@ -34,21 +64,49 @@ const LoginScreen = () => {
           resizeMode="contain"
         />
       </View>
+      <Controller
+        control={control}
+        name="username"
+        render={({ field: { onChange, value, onBlur } }) => (
+          <Input
+            autoCapitalize="none"
+            label="Username"
+            value={value}
+            onChangeText={onChange}
+            placeholder="Masukan username anda"
+            error={errors.username ? errors.username.message : ""}
+          />
+        )}
+      />
 
-      <Input
-        label="Email"
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Your email"
+      <Controller
+        control={control}
+        name="password"
+        render={({ field: { onChange, value, onBlur } }) => (
+          <Input
+            secureTextEntry={true}
+            label="Pasword"
+            value={value}
+            onChangeText={onChange}
+            placeholder="Masukan password anda"
+            error={errors.password ? errors.password.message : ""}
+          />
+        )}
       />
-      <Input
-        secureTextEntry={true}
-        label="Pasword"
-        value={password}
-        onChangeText={setPassword}
-        placeholder="Your email"
+
+      <Button
+        title="Login"
+        disabled={isSubmitting}
+        onPress={handleSubmit(onSubmit)}
       />
-      <Button title="Login" />
+
+      <Button
+        title="Lanjutkan dengan Google"
+        disabled={isSubmitting}
+        onPress={handleSubmit(onSubmit)}
+        icon="logo-google"
+      />
+      {/* Google Login Button */}
     </Container>
   );
 };

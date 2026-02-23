@@ -9,8 +9,9 @@ import {
 
 interface InputProps extends TextInputProps {
   label: string;
+  error?: string;
 }
-export const Input = ({ label, ...props }: InputProps) => {
+export const Input = ({ label, error, ...props }: InputProps) => {
   return (
     <View className="mb-4">
       <Text className="text-white/60 text-sm mb-2">{label}</Text>
@@ -21,6 +22,7 @@ export const Input = ({ label, ...props }: InputProps) => {
           className="text-white text-base"
         />
       </View>
+      {error && <Text className="text-[#ff4d4f]/80 text-sm mt-2">{error}</Text>}
     </View>
   );
 };
