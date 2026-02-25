@@ -8,5 +8,15 @@ export const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET!;
 export const GOOGLE_REDIRECT_URI = `${process.env.EXPO_PUBLIC_BASE_URL}/api/auth/callback`;
 export const REFRESH_TOKEN_EXPIRY = "30d"; // 30 days
 
-export const API_URL = "https://newsapi.org";
+export const EXPO_PUBLIC_API_URL = "https://newsapi.org";
 export const API_KEY = "921ba5b747274facb0fa0541e919b455";
+export const COOKIE_NAME = "auth_token";
+export const COOKIE_MAX_AGE = 20; // 20 seconds
+export const COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: true,
+  sameSite: "Lax" as const,
+  path: "/",
+  maxAge: COOKIE_MAX_AGE,
+};
+export const REFRESH_COOKIE_NAME = "refresh_token";

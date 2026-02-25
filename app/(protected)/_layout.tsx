@@ -12,8 +12,11 @@ const ProtectedLayout = () => {
     return <Redirect href="/(auth)/login" />;
   }
   return (
-    <Stack>
+    <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="detail" options={{ headerShown: false }} />
+      <Stack.Screen name="/article/[id]" options={{ headerShown: false }} />
+
       <Stack.Screen name="profile" options={{ headerShown: false }} />
     </Stack>
   );
