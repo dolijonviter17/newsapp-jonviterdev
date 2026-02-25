@@ -431,33 +431,56 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     password: string,
   ) => {
     try {
-      const login_user = await fetch("https://dummyjson.com/user/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-          expiresInMins: 30, // optional, defaults to 60
-        }),
-      });
-      const current_user = await login_user.json();
-      console.log("pengguna : ", current_user);
+      if (username != "jonviterdev17@gmail.com") {
+        throw new Error("username / email / password salah");
+      }
+      if (password != "jonviterdev17#") {
+        throw new Error("username / email / password salah");
+      }
       const formData = new FormData();
-      const name = `${current_user.firstName} ${current_user.lastName}`;
-      formData.append("email", current_user.email);
-      formData.append("name", name);
-      formData.append("picture", current_user.image);
-      const tokenResponse = await fetch(`${BASE_URL}/api/auth/token`, {
+      formData.append("email", username);
+      const tokenResponse = await fetch(`${BASE_URL}/api/auth/logintoken`, {
         method: "POST",
         body: formData,
         credentials: "same-origin",
       });
-      const userData = await tokenResponse.json();
+      const tokens = await tokenResponse.json();
+      await handleNativeTokens(tokens);
 
-      console.log("tokenResponse", userData);
-    } catch (error) {
-      console.log("error :", error);
+      console.log("tokenResponse username", tokens);
+    } catch (error: any) {
+      alert(error?.message);
+
+      console.log("error :", error?.message);
     }
+    // try {
+    //   const login_user = await fetch("https://dummyjson.com/user/login", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({
+    //       username: username,
+    //       password: password,
+    //       expiresInMins: 30, // optional, defaults to 60
+    //     }),
+    //   });
+    //   const current_user = await login_user.json();
+    //   console.log("pengguna : ", current_user);
+    //   const formData = new FormData();
+    //   const name = `${current_user.firstName} ${current_user.lastName}`;
+    //   formData.append("email", current_user.email);
+    //   formData.append("name", name);
+    //   formData.append("picture", current_user.image);
+    //   const tokenResponse = await fetch(`${BASE_URL}/api/auth/token`, {
+    //     method: "POST",
+    //     body: formData,
+    //     credentials: "same-origin",
+    //   });
+    //   const userData = await tokenResponse.json();
+
+    //   console.log("tokenResponse", userData);
+    // } catch (error) {
+    //   console.log("error :", error);
+    // }
   };
 
   const signInWithGoogle = async () => {
