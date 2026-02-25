@@ -20,7 +20,7 @@ const signInScheme = z.object({
 
 type signInValues = z.infer<typeof signInScheme>;
 const LoginScreen = () => {
-  const { signIn } = useAuth();
+  const { signIn, signInWithGoogle } = useAuth();
   const {
     control,
     handleSubmit,
@@ -103,7 +103,7 @@ const LoginScreen = () => {
       <Button
         title="Lanjutkan dengan Google"
         disabled={isSubmitting}
-        onPress={handleSubmit(onSubmit)}
+        onPress={signInWithGoogle}
         icon="logo-google"
       />
       {/* Google Login Button */}

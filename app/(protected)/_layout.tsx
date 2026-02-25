@@ -4,14 +4,17 @@ import React from "react";
 import { StyleSheet } from "react-native";
 
 const ProtectedLayout = () => {
-  const { isLogin } = useAuth();
+  const { user, isLoading } = useAuth();
 
-  if (!isLogin) {
+  if (isLoading) return null;
+
+  if (!user) {
     return <Redirect href="/(auth)/login" />;
   }
   return (
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="profile" options={{ headerShown: false }} />
     </Stack>
   );
 };
