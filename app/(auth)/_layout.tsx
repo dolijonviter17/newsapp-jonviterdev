@@ -4,10 +4,12 @@ import React from "react";
 import { StyleSheet } from "react-native";
 
 const AuthLayout = () => {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
+
+  if (isLoading) return null;
 
   if (user) {
-    return <Redirect href="/(protected)/profile" />;
+    return <Redirect href="/(protected)" />;
   }
   return (
     <Stack
