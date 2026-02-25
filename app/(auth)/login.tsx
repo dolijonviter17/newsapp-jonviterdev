@@ -20,7 +20,7 @@ const signInScheme = z.object({
 
 type signInValues = z.infer<typeof signInScheme>;
 const LoginScreen = () => {
-  const { signIn, signInWithGoogle } = useAuth();
+  const { signIn, signInWithGoogle, signInWithUsernamePassword } = useAuth();
   const {
     control,
     handleSubmit,
@@ -35,7 +35,11 @@ const LoginScreen = () => {
     mode: "onSubmit",
   });
   const onSubmit = async (values: signInValues) => {
-    await signIn(values.username, values.password);
+    try {
+      await signInWithUsernamePassword(values.username, values.password);
+    } catch (error: any) {
+      console.log("error:", error?.message);
+    }
   };
 
   return (
@@ -70,10 +74,10 @@ const LoginScreen = () => {
         render={({ field: { onChange, value, onBlur } }) => (
           <Input
             autoCapitalize="none"
-            label="Username"
+            label="Username / Email"
             value={value}
             onChangeText={onChange}
-            placeholder="Masukan username anda"
+            placeholder="Masukan username / email anda"
             error={errors.username ? errors.username.message : ""}
           />
         )}
