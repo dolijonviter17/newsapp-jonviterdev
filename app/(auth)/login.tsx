@@ -1,6 +1,7 @@
 import Button from "@/components/button";
 import Container from "@/components/container";
 import Input from "@/components/input";
+import Text from "@/components/Text";
 import { useAuth } from "@/context/auth";
 import { passwordSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,7 +15,6 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
@@ -64,11 +64,11 @@ const LoginScreen = () => {
           <Feather name="hexagon" size={40} color="white" />
         </View> */}
 
-          <Text className="text-white text-3xl font-bold mb-2">
+          <Text variant="title" weight="bold" className="mb-2">
             Selamat datang!
           </Text>
 
-          <Text className="text-white/80 text-center text-base">
+          <Text className="text-center text-base">
             Halo reader,{"\n"}
             Silahkan login ke aplikasi
           </Text>

@@ -17,10 +17,10 @@ const MenuItem = ({ icon, title, danger, ...props }: MenuItemProps) => {
   return (
     <Pressable
       {...props}
-      className="flex-row items-center justify-between px-5 py-4 bg-[#141824] border border-white/10 rounded-2xl mb-3"
+      className="flex-row items-center justify-between px-5 py-4 bg:white dark:bg-gray-900 border border-black/10 dark:border-white/10 rounded-2xl mb-3"
     >
       <View className="flex-row items-center gap-3">
-        <View className="w-10 h-10 rounded-xl bg-black/30 items-center justify-center">
+        <View className="w-10 h-10 rounded-xl bg-white/30 dark:bg-black/30 items-center justify-center">
           <Ionicons
             name={icon}
             size={20}

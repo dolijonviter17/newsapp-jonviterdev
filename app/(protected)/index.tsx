@@ -1,3 +1,5 @@
+import Container from "@/components/container";
+import Text from "@/components/Text";
 import { useAuth } from "@/context/auth";
 import { apiClient } from "@/services/client";
 import { router } from "expo-router";
@@ -9,10 +11,8 @@ import {
   Pressable,
   RefreshControl,
   StyleSheet,
-  Text,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 type Article = {
   id: string;
@@ -42,11 +42,11 @@ function ArticleCard({
   return (
     <Pressable
       onPress={onPress}
-      className="mb-5 overflow-hidden rounded-[28px] border border-white/10 bg-white/5"
+      className="mb-5 overflow-hidden rounded-[28px] border border-black/10 bg-black/5 dark:border-white/10 dark:bg-white/5"
     >
       <View className="flex-row">
         {/* Thumbnail */}
-        <View className="h-28 w-28 bg-white/5">
+        <View className="h-28 w-28 bg-black/5 dark:bg-white/5">
           {item.imageUrl ? (
             <Image
               source={{ uri: item.imageUrl }}
@@ -55,7 +55,7 @@ function ArticleCard({
             />
           ) : (
             <View className="h-28 w-28 items-center justify-center">
-              <Text className="text-white/40">No Image</Text>
+              <Text weight="medium">No Image</Text>
             </View>
           )}
         </View>
@@ -64,26 +64,24 @@ function ArticleCard({
         <View className="flex-1 px-5 py-4">
           {/* Meta row */}
           <View className="mb-2 flex-row items-center">
-            <View className="rounded-full bg-white/10 px-3 py-1">
-              <Text className="text-[12px] font-medium text-white/75">
+            <View className="rounded-full bg-black/10 dark:bg-white/10 px-3 py-1">
+              <Text className="text-[12px] font-medium text-black/75 dark:text-white/75">
                 {item.category}
               </Text>
             </View>
 
-            <Text className="ml-4 text-[12px] text-white/55">{item.time}</Text>
+            <Text className="ml-4 text-[12px]">{item.time}</Text>
           </View>
 
           <Text
-            className="text-[18px] font-extrabold leading-6 text-white"
+            weight="bold"
+            className="text-[18px] leading-6"
             numberOfLines={2}
           >
             {item.title}
           </Text>
 
-          <Text
-            className="mt-2 text-[14px] leading-5 text-white/50"
-            numberOfLines={2}
-          >
+          <Text className="mt-2 text-[14px] leading-5" numberOfLines={2}>
             {item.excerpt}
           </Text>
         </View>
@@ -158,24 +156,21 @@ const DashboardScreen = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-[#0B0F17]">
+    <Container>
       <View className="px-6 pt-4">
         <View className="flex-row items-start justify-between">
           <View className="flex-1 pr-4">
-            <Text
-              className="text-3xl font-extrabold text-white"
-              numberOfLines={2}
-            >
+            <Text variant="title" weight="bold" numberOfLines={2}>
               Hi, {user.name}
             </Text>
-            <Text className="mt-2 text-base text-white/50">
+            <Text className="mt-2 text-base">
               Selamat datang di layanan kita
             </Text>
           </View>
 
           <Pressable
             onPress={() => router.push("/profile")}
-            className="h-14 w-14 items-center justify-center rounded-full bg-white/10"
+            className="h-14 w-14 items-center justify-center rounded-full bg-black/10 dark:bg-white/10"
           >
             <Text className="text-xl text-white">🔔</Text>
           </Pressable>
@@ -185,12 +180,10 @@ const DashboardScreen = () => {
       {/* List */}
 
       <View className="mt-8 px-6">
-        <Text className="text-[22px] font-bold text-white">
+        <Text weight="bold" className="text-[22px]">
           Artikel untuk kamu
         </Text>
-        <Text className="mt-1 text-[15px] text-white/45">
-          Update terbaru & rekomendasi
-        </Text>
+        <Text className="mt-1 text-[15px]">Update terbaru & rekomendasi</Text>
       </View>
 
       {loading ? (
@@ -232,7 +225,7 @@ const DashboardScreen = () => {
           )}
         />
       )}
-    </SafeAreaView>
+    </Container>
   );
 };
 
